@@ -11,6 +11,7 @@ import (
 	"github.com/go-acme/lego/v5/challenge/dnspersist01"
 	"github.com/go-acme/lego/v5/challenge/http01"
 	"github.com/go-acme/lego/v5/challenge/tlsalpn01"
+	"github.com/go-acme/lego/v5/challenge/wif01"
 	"github.com/go-acme/lego/v5/cmd/internal/flags"
 	"github.com/go-acme/lego/v5/lego"
 	"github.com/go-acme/lego/v5/providers/dns"
@@ -46,6 +47,13 @@ func setupChallenges(cmd *cli.Command, client *lego.Client) error {
 		err := setupDNSPersist(cmd, client)
 		if err != nil {
 			return fmt.Errorf("DNS-PERSIST challenge provider: %w", err)
+		}
+	}
+
+	if cmd.IsSet(flags.FlgWIF) {
+		err := setupWIF(cmd, client)
+		if err != nil {
+			return fmt.Errorf("WIF challenge provider: %w", err)
 		}
 	}
 
@@ -198,6 +206,28 @@ func setupDNSPersist(cmd *cli.Command, client *lego.Client) error {
 			),
 		),
 	)
+}
+
+func setupWIF(cmd *cli.Command, client *lego.Client) error {
+	var (
+		provider wif01.TokenProvider
+		err      error
+	)
+
+	switch name := cmd.String(flags.FlgWIF); name {
+	case "github":
+		provider, err = wif01.NewGitHubActionsProvider()
+	case "command":
+		provider, err = wif01.NewCommandProvider(cmd.String(flags.FlgWIFCommand))
+	default:
+		return fmt.Errorf("unsupported WIF token provider: %q", name)
+	}
+
+	if err != nil {
+		return err
+	}
+
+	return client.Challenge.SetWIF01Provider(provider)
 }
 
 func getNetworkStack(cmd *cli.Command) challenge.NetworkStack {

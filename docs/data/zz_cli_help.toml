@@ -160,6 +160,13 @@ lego run [options]
 | `--tls.address string` | `LEGO_TLS_ADDRESS` | Set the address to use for TLS-ALPN-01 based challenges to listen on. Supported: interface:port or :port. <br> (Default: ":443") |
 | `--tls.delay duration` | `LEGO_TLS_DELAY` | Delay between the start of the TLS listener (use for TLSALPN-01 based challenges) and the validation of the challenge. <br> (Default: 0s) |
 
+#### Flags related to the WIF-01 challenge:
+
+| Flag | Env Var | Usage |
+|------|-------|-------|
+| `--wif string` | `LEGO_WIF` | Use the WIF-01 challenge (experimental) to solve challenges with a workload identity token. Supported values: 'github' (GitHub Actions OIDC), 'command' (see '--wif.command'). Can be mixed with other types of challenges.  |
+| `--wif.command string` | `LEGO_WIF_COMMAND` | Command used to obtain a WIF token when '--wif=command'. The audience is passed through the LEGO_WIF_AUDIENCE environment variable, and the token must be printed on stdout.  |
+
 #### Flags related to the storage:
 
 | Flag | Env Var | Usage |

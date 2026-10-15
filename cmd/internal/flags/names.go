@@ -10,6 +10,7 @@ const (
 	categoryTLSALPN01Challenge    = "Flags related to the TLS-ALPN-01 challenge:"
 	categoryDNS01Challenge        = "Flags related to the DNS-01 challenge:"
 	categoryDNSPersist01Challenge = "Flags related to the DNS-PERSIST-01 challenge:"
+	categoryWIF01Challenge        = "Flags related to the WIF-01 challenge:"
 	categoryStorage               = "Flags related to the storage:"
 	categoryHooks                 = "Flags related to hooks:"
 	categoryEAB                   = "Flags related to External Account Binding:"
@@ -126,6 +127,12 @@ const (
 	FlgDNSPersistPropagationDisableRNS = "dns-persist.propagation.disable-rns"
 	FlgDNSPersistResolvers             = "dns-persist.resolvers"
 	FlgDNSPersistTimeout               = "dns-persist.timeout"
+)
+
+// Flag names related to the WIF-01 challenge.
+const (
+	FlgWIF        = "wif"
+	FlgWIFCommand = "wif.command"
 )
 
 // Flags names related to hooks.

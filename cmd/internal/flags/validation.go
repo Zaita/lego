@@ -48,9 +48,9 @@ func validateNetworkStack(cmd *cli.Command) error {
 }
 
 func validateChallengeRequirements(cmd *cli.Command) error {
-	if !cmd.Bool(FlgHTTP) && !cmd.Bool(FlgTLS) && !cmd.IsSet(FlgDNS) && !cmd.Bool(FlgDNSPersist) {
-		return fmt.Errorf("no challenge selected: you must specify at least one challenge: '--%s', '--%s', '--%s', '--%s'",
-			FlgHTTP, FlgTLS, FlgDNS, FlgDNSPersist)
+	if !cmd.Bool(FlgHTTP) && !cmd.Bool(FlgTLS) && !cmd.IsSet(FlgDNS) && !cmd.Bool(FlgDNSPersist) && !cmd.IsSet(FlgWIF) {
+		return fmt.Errorf("no challenge selected: you must specify at least one challenge: '--%s', '--%s', '--%s', '--%s', '--%s'",
+			FlgHTTP, FlgTLS, FlgDNS, FlgDNSPersist, FlgWIF)
 	}
 
 	if isSetBool(cmd, FlgDNS) {

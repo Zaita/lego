@@ -114,6 +114,26 @@ const (
 	// UserActionRequiredErrorType Visit the "instance" URL and take actions specified there.
 	// - https://www.rfc-editor.org/rfc/rfc8555.html#section-6.7
 	UserActionRequiredErrorType = errNS + "userActionRequired"
+
+	// BadWIFTokenErrorType The WIF Token is malformed, its signature or algorithm is unacceptable, or its timing claims fail.
+	// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	BadWIFTokenErrorType = errNS + "badWifToken"
+
+	// WIFIssuerNotAcceptedErrorType The WIF Token issuer is not accepted for this challenge.
+	// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIFIssuerNotAcceptedErrorType = errNS + "wifIssuerNotAccepted"
+
+	// WIFAudienceMismatchErrorType The WIF Token audience does not contain the expected Audience Binding Value.
+	// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIFAudienceMismatchErrorType = errNS + "wifAudienceMismatch"
+
+	// WIFTokenReplayedErrorType The WIF Token has already been used.
+	// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIFTokenReplayedErrorType = errNS + "wifTokenReplayed"
+
+	// WIFPolicyDeniedErrorType The WIF Token claims do not satisfy the server policy for the identifier.
+	// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIFPolicyDeniedErrorType = errNS + "wifPolicyDenied"
 )
 
 // ProblemDetails the problem details object.

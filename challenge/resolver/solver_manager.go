@@ -18,6 +18,7 @@ import (
 	"github.com/go-acme/lego/v5/challenge/dnspersist01"
 	"github.com/go-acme/lego/v5/challenge/http01"
 	"github.com/go-acme/lego/v5/challenge/tlsalpn01"
+	"github.com/go-acme/lego/v5/challenge/wif01"
 	"github.com/go-acme/lego/v5/internal/dnspersist"
 	"github.com/go-acme/lego/v5/internal/wait"
 	"github.com/go-acme/lego/v5/log"
@@ -84,6 +85,13 @@ func (c *SolverManager) SetDNSPersist01(opts ...dnspersist01.ChallengeOption) er
 	return nil
 }
 
+// SetWIF01Provider specifies a token provider p that can solve the given WIF-01 challenge.
+// IMPORTANT: this method is experimental and may change without notice.
+func (c *SolverManager) SetWIF01Provider(p wif01.TokenProvider) error {
+	c.solvers[challenge.WIF01] = wif01.NewChallenge(c.core, validateWithPayload, p)
+	return nil
+}
+
 // Remove removes a challenge type from the available solvers.
 func (c *SolverManager) Remove(chlgType challenge.Type) {
 	delete(c.solvers, chlgType)
@@ -123,7 +131,12 @@ func (c *SolverManager) chooseSolver(authz acme.Authorization) solver {
 }
 
 func validate(ctx context.Context, core *api.Core, domain string, chlg acme.Challenge) error {
-	chlng, err := core.Challenges.New(ctx, chlg.URL)
+	// Challenge initiation is done by sending a JWS payload containing the trivial JSON object `{}`.
+	return validateWithPayload(ctx, core, domain, chlg, struct{}{})
+}
+
+func validateWithPayload(ctx context.Context, core *api.Core, domain string, chlg acme.Challenge, payload any) error {
+	chlng, err := core.Challenges.NewWithPayload(ctx, chlg.URL, payload)
 	if err != nil {
 		return fmt.Errorf("failed to initiate the challenge: %w", err)
 	}

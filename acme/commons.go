@@ -79,6 +79,23 @@ type Meta struct {
 	// A map of profile names to human-readable descriptions of those profiles.
 	// https://www.ietf.org/archive/id/draft-ietf-acme-profiles-01.html#name-extensions-to-the-directory
 	Profiles map[string]string `json:"profiles"`
+
+	// wif (optional, object):
+	// Workload Identity Federation metadata.
+	// https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIF *WIFMeta `json:"wif,omitempty"`
+}
+
+// WIFMeta the Workload Identity Federation directory metadata.
+// - https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+type WIFMeta struct {
+	// issuers (required, array of string):
+	// The issuer identifiers the server accepts WIF Tokens from.
+	Issuers []string `json:"issuers"`
+
+	// maxTokenLifetime (optional, number):
+	// The maximum remaining validity, in seconds, the server accepts for a WIF Token.
+	MaxTokenLifetime int `json:"maxTokenLifetime,omitempty"`
 }
 
 // ExtendedAccount an extended Account.
@@ -301,6 +318,11 @@ type Challenge struct {
 	// A list of one or more Issuer Domain Names.
 	// https://www.ietf.org/archive/id/draft-ietf-acme-dns-persist-01.html#section-3.1
 	IssuerDomainNames []string `json:"issuer-domain-names,omitempty"`
+
+	// issuers (optional for wif-01, []string):
+	// A subset of the issuers advertised in the directory "wif" metadata accepted for this challenge.
+	// https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	Issuers []string `json:"issuers,omitempty"`
 
 	// https://www.rfc-editor.org/rfc/rfc8555.html#section-8.1
 	KeyAuthorization string `json:"keyAuthorization"`

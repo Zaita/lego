@@ -296,6 +296,7 @@ func createChallengesFlags() []cli.Flag {
 	flags = append(flags, createTLSChallengeFlags()...)
 	flags = append(flags, createDNSChallengeFlags()...)
 	flags = append(flags, createDNSPersistChallengeFlags()...)
+	flags = append(flags, createWIFChallengeFlags()...)
 	flags = append(flags, createNetworkStackFlags()...)
 
 	return flags
@@ -482,6 +483,26 @@ func createDNSPersistChallengeFlags() []cli.Flag {
 	)
 
 	return flags
+}
+
+func createWIFChallengeFlags() []cli.Flag {
+	return []cli.Flag{
+		&cli.StringFlag{
+			Category: categoryWIF01Challenge,
+			Name:     FlgWIF,
+			Sources:  cli.EnvVars(toEnvName(FlgWIF)),
+			Usage: "Use the WIF-01 challenge (experimental) to solve challenges with a workload identity token." +
+				" Supported values: 'github' (GitHub Actions OIDC), 'command' (see '--" + FlgWIFCommand + "')." +
+				" Can be mixed with other types of challenges.",
+		},
+		&cli.StringFlag{
+			Category: categoryWIF01Challenge,
+			Name:     FlgWIFCommand,
+			Sources:  cli.EnvVars(toEnvName(FlgWIFCommand)),
+			Usage: "Command used to obtain a WIF token when '--" + FlgWIF + "=command'." +
+				" The audience is passed through the LEGO_WIF_AUDIENCE environment variable, and the token must be printed on stdout.",
+		},
+	}
 }
 
 func createDNSPropagationFlags(category, flgWait, flgANS, flgRNS string) []cli.Flag {

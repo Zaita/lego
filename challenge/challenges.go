@@ -23,6 +23,9 @@ const (
 
 	// TLSALPN01 is the "tls-alpn-01" ACME challenge https://www.rfc-editor.org/rfc/rfc8737.html
 	TLSALPN01 = Type("tls-alpn-01")
+
+	// WIF01 is the "wif-01" ACME challenge https://datatracker.ietf.org/doc/draft-rasmussen-acme-wif/
+	WIF01 = Type("wif-01")
 )
 
 func (t Type) String() string {
