@@ -34,6 +34,7 @@ So if you think that lego is worth it, please consider [donating](https://donate
   - HTTP (http-01)
   - DNS (dns-01)
   - TLS (tls-alpn-01)
+  - WIF (wif-01)
 - SAN certificate support
 - [CNAME support](https://letsencrypt.org/2019/10/09/onboarding-your-customers-with-lets-encrypt-and-acme.html) by default
 - [Custom challenge solvers](https://go-acme.github.io/lego/usage/library/writing-a-challenge-solver/)
